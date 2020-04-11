@@ -1,0 +1,17 @@
+const path = require("path");
+
+function getHTMLRoutes(app){
+    
+     // GET route for index.html
+     app.get("/", function(req, res){
+        res.sendFile(path.join(__dirname, "../public/index.html"));
+    });
+
+    //  GET route for notes.html
+    app.get("/notes", function(req, res){
+        res.sendFile(path.join(__dirname, "../public/notes.html"));
+    });
+  
+    }
+
+module.exports = getHTMLRoutes(app);
