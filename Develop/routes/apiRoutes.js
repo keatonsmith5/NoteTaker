@@ -44,17 +44,27 @@ module.exports = function(app) {
         
 
     // Delete note with certain id
-
+    app.delete("/api/notes/:id", (req, res) => {
         //convert the data of that id from json to string
+        let id = req.params.id.toString();
 
         //iterate through the notes data array and find matching id
-
-        //respond note to be deleted
-
-        //remove note from array
+        for (i=0; i < noteData.length; i++) {
+            if(noteData[i].id === id) {
+                //respond note to be deleted
+                res.send(noteData[i]);
+                //remove note from array
+                noteData.splice(i, 1);
+                break;
+            }
+        }
 
         // write entire note array to db again
+        writeToDB(noteData);
 
+    })
+
+       
 }
 
 
