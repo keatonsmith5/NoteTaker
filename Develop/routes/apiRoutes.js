@@ -1,37 +1,60 @@
 const fs = require("fs");
 
 //require data from json file and save it in a variable
+noteData = require("../db/db.json");
 
-//create a function that writes the notes to the db file
-    // create variable that takes the json and converts it to a string
-    // write the string back to the db file
+module.exports = function(app) {
 
+    //create a function that writes the notes to the db file
+    const writeToDB = (notes) => {
+        // create variable that takes the json and converts it to a string
+        notes = JSON.stringify(notes);
+        // write the string back to the db file
+        fs.writeFileSync("./db/db.json", notes, (error) => {
+            if(error) {
+                return console.log(error);
+            }
+        });
+    }
 
-//POST request
-    //set an id to each new post
+    //GET request that sends json data
+    app.get("/api/notes", (req, res) => {
+        res.json(noteData);
+    })
 
-    //push the body of the note to JSON file
+    //POST request
+    app.post("/api/notes", (req, res) => {
+        //set an id to each new post
+        if(noteData.length === 0) {
+            req.body.id = "0";
+        }
+        else {
+            req.body.id = JSON.stringify(JSON.parse(noteData[noteData.length - 1].id) + 1);
+        }
+        console.log("id:" + req.body)
+        //push the body of the note to JSON file
+        noteData.push(req.body);
 
-    //use function above to write to file
+        //use function above to write to file
+        writeToDB(noteData);
 
-    //respond with the note in JSON
+        //respond with the note in JSON
+        res.json(req.body);
+    })
+        
 
+    // Delete note with certain id
 
+        //convert the data of that id from json to string
 
-//GET request that sends json data
+        //iterate through the notes data array and find matching id
 
+        //respond note to be deleted
 
-// Delete note with certain id
+        //remove note from array
 
-    //convert the data of that id from json to string
+        // write entire note array to db again
 
-    //iterate through the notes data array and find matching id
+}
 
-    //respond note to be deleted
-
-    //remove note from array
-
-    // write entire note array to db again
-
-    
 

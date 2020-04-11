@@ -1,6 +1,6 @@
 const path = require("path");
 
-function getHTMLRoutes(app){
+module.exports = function(app){
     
      // GET route for index.html
      app.get("/", function(req, res){
@@ -14,4 +14,3 @@ function getHTMLRoutes(app){
   
     }
 
-module.exports = getHTMLRoutes(app);
